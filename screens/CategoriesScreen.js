@@ -8,7 +8,11 @@ import {
 
 const CategoriesScreen = (props) => {
  buttonPressHandler = () => (
-    props.navigation.navigate({ routeName: 'CategoryMeals' })
+    /* Push can take us to screens where navigation won't eg
+    we cannot to same screen to same screen, it won't be added to stack
+    but if we use push then we can, it will add it to the stack.
+    Alo, we don't pass ({routeName: 'Categories'}), but just ('Categories')  */
+    props.navigation.push('Categories')
     /* Or props.navigation.navigate('CategoryMeals') */
  );
 
