@@ -4,36 +4,15 @@ import {
     Text,
     StyleSheet,
     Button,
-    FlatList
+    FlatList,
+    TouchableOpacity,
+    Platform
 } from 'react-native';
 import { CATEGORIES } from '../data/dummy-data';
-
-const renderGridItem = (itemData) => {
-    /* Item data received in renderGridItem is
-    Object {
-        "index": 9,
-        "item": Category {
-            "color": "#47fced",
-            "id": "c10",
-            "title": "Summer",
-        },
-        "separators": Object {
-            "highlight": [Function highlight],
-            "unhighlight": [Function unhighlight],
-            "updateProps": [Function updateProps],
-        },
-    } */
-    return (
-    <View style={styles.gridItem}>
-        <Text>
-            {itemData.item.title}
-        </Text>
-    </View>
-    );
-};
+import Colors from '../constants/Colors';
 
 const CategoriesScreen = (props) => {
- buttonPressHandler = () => (
+ const navigationHandler = () => (
 
     props.navigation.navigate({ routeName: 'CategoryMeals' })
     /* Or props.navigation.navigate('CategoryMeals') */
@@ -51,6 +30,35 @@ const CategoriesScreen = (props) => {
     we don't want to come back to the login screen using back button or anything */
     // props.navigation.replace({ routeName: 'CategoryMeals' })
  );
+
+ const renderGridItem = (itemData) => (
+
+    /* Item data received in renderGridItem is
+    Object {
+        "index": 9,
+        "item": Category {
+            "color": "#47fced",
+            "id": "c10",
+            "title": "Summer",
+        },
+        "separators": Object {
+            "highlight": [Function highlight],
+            "unhighlight": [Function unhighlight],
+            "updateProps": [Function updateProps],
+        },
+    } */
+
+    <TouchableOpacity
+    onPress={navigationHandler}
+    style={styles.gridItem}
+    >
+        <View>
+            <Text>
+                {itemData.item.title}
+            </Text>
+        </View>
+    </TouchableOpacity>
+);
 
  return (
     /* Item received in KeyExtractor is:
@@ -70,6 +78,19 @@ const CategoriesScreen = (props) => {
     />
  );
 };
+
+/* Since every function in javascript is an object, we can add
+properties to it, so we will add navigation property to CategoriesScreen,
+which is javascript function and essentially an object in java */
+CategoriesScreen.navigationOptions = {
+    // Styling the Header
+    headerTitle: 'Meal Categories',
+    headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
+    },
+    headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor // Font Color
+};
+
 
 const styles = StyleSheet.create({
     screen: {
