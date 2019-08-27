@@ -13,7 +13,7 @@ const CategoryMealScreen = (props) => {
  return (
      <View style={styles.screen}>
          <Text>CategoryMeal Screen</Text>
-         <Button title="Meal Details Screen" onPress={buttonPressHandler} />
+         <Button title="Go to Category Details Screen" onPress={buttonPressHandler} />        
      </View>
  );
 };
