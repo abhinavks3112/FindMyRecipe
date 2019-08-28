@@ -5,11 +5,9 @@ import {
     StyleSheet,
     Button,
     FlatList,
-    TouchableOpacity,
-    Platform
+    TouchableOpacity
 } from 'react-native';
 import { CATEGORIES } from '../data/dummy-data';
-import Colors from '../constants/Colors';
 
 const CategoriesScreen = (props) => {
  const navigationHandler = (categoryId) => (
@@ -81,7 +79,7 @@ const CategoriesScreen = (props) => {
     numColumns={2}
     data={CATEGORIES}
     renderItem={renderGridItem}
-    keyExtractor={(item, index) => item.id}
+    keyExtractor={(item) => item.id}
     />
  );
 };
@@ -91,11 +89,7 @@ properties to it, so we will add navigation property to CategoriesScreen,
 which is javascript function and essentially an object in java */
 CategoriesScreen.navigationOptions = {
     // Styling the Header
-    headerTitle: 'Meal Categories',
-    headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
-    },
-    headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor // Font Color
+    headerTitle: 'Meal Categories'
 };
 
 

@@ -3,11 +3,9 @@ import {
  View,
  Text,
  StyleSheet,
- Button,
- Platform
+ Button
 } from 'react-native';
 import { CATEGORIES } from '../data/dummy-data';
-import Colors from '../constants/Colors';
 
 const CategoryMealScreen = (props) => {
  /* We will use getParam to extract params passed from previous screen
@@ -38,11 +36,7 @@ CategoryMealScreen.navigationOptions = (navigationData) => {
     const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
 
     return {
-        headerTitle: selectedCategory.title,
-        headerStyle: {
-            backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
-        },
-        headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor // Font Color
+        headerTitle: selectedCategory.title
     };
 };
 
