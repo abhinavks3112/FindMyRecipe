@@ -1,25 +1,21 @@
 import React from 'react';
 import {
-    View,
-    Text,
     StyleSheet,
-    Button,
-    FlatList,
-    TouchableOpacity
+    FlatList
 } from 'react-native';
 import { CATEGORIES } from '../data/dummy-data';
+import CategoryGridTile from '../components/CategoryGridTile';
 
 const CategoriesScreen = (props) => {
- const navigationHandler = (categoryId) => (
-
+ /* const navigationHandler = (categoryId) => (
     props.navigation.navigate({
         routeName: 'CategoryMeals',
         /* we can pass any data in the form of key value pair in params,
         no limit to the number of data, define any key, give any value.
         These value will be passed to the page we are navigating.
         Eg, we will pass the id of the category we clicked on. */
-        params: { categoryId }
-    })
+        // params: { categoryId }
+    // }) */
     /* Or props.navigation.navigate('CategoryMeals') */
 
     /* Push can take us to screens where navigation won't eg
@@ -34,11 +30,10 @@ const CategoriesScreen = (props) => {
     eg. we may want to replace 'Login Screen' with home screen after login and
     we don't want to come back to the login screen using back button or anything */
     // props.navigation.replace({ routeName: 'CategoryMeals' })
- );
+ // );
 
- const renderGridItem = (itemData) => (
 
-    /* Item data received in renderGridItem is
+   /* Item data received in renderGridItem is
     Object {
         "index": 9,
         "item": Category {
@@ -53,16 +48,17 @@ const CategoriesScreen = (props) => {
         },
     } */
 
-    <TouchableOpacity
-    onPress={() => navigationHandler(itemData.item.id)}
-    style={styles.gridItem}
-    >
-        <View>
-            <Text>
-                {itemData.item.title}
-            </Text>
-        </View>
-    </TouchableOpacity>
+ const renderGridItem = (itemData) => (
+ <CategoryGridTile
+    title={itemData.item.title}
+    color={itemData.item.color}
+    onSelect={() => (
+    props.navigation.navigate({
+        routeName: 'CategoryMeals',
+        params: { categoryId: itemData.item.id }
+        })
+    )}
+ />
 );
 
  return (
@@ -98,11 +94,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    gridItem: {
-        flex: 1,
-        margin: 15,
-        height: 150
     }
 });
 
