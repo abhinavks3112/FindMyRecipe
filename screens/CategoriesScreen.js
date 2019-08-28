@@ -12,9 +12,16 @@ import { CATEGORIES } from '../data/dummy-data';
 import Colors from '../constants/Colors';
 
 const CategoriesScreen = (props) => {
- const navigationHandler = () => (
+ const navigationHandler = (categoryId) => (
 
-    props.navigation.navigate({ routeName: 'CategoryMeals' })
+    props.navigation.navigate({
+        routeName: 'CategoryMeals',
+        /* we can pass any data in the form of key value pair in params,
+        no limit to the number of data, define any key, give any value.
+        These value will be passed to the page we are navigating.
+        Eg, we will pass the id of the category we clicked on. */
+        params: { categoryId }
+    })
     /* Or props.navigation.navigate('CategoryMeals') */
 
     /* Push can take us to screens where navigation won't eg
@@ -49,7 +56,7 @@ const CategoriesScreen = (props) => {
     } */
 
     <TouchableOpacity
-    onPress={navigationHandler}
+    onPress={() => navigationHandler(itemData.item.id)}
     style={styles.gridItem}
     >
         <View>
