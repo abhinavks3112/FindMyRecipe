@@ -7,7 +7,9 @@ import Colors from '../constants/Colors';
 
 const MealsNavigator = createStackNavigator({
     /* All the components mapped here will get a special props passed to them
-    from navigation */
+    from navigation
+    First key serve as the initial route
+    */
     /* 2 way of setting key value, using screen in object and without */
     Categories: {
         screen: CategoriesScreen
@@ -19,7 +21,7 @@ const MealsNavigator = createStackNavigator({
     },
     CategoryMeals: CategoryMealScreen,
     MealDetail: MealDetailScreen
-   }, 
+   },
    {
     defaultNavigationOptions: {
             headerStyle: {
