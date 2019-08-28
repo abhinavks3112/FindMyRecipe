@@ -3,9 +3,11 @@ import {
  View,
  Text,
  StyleSheet,
- Button
+ Button,
+ Platform
 } from 'react-native';
 import { CATEGORIES } from '../data/dummy-data';
+import Colors from '../constants/Colors';
 
 const CategoryMealScreen = (props) => {
  /* We will use getParam to extract params passed from previous screen
@@ -22,6 +24,26 @@ const CategoryMealScreen = (props) => {
          <Button title="Go to Category Details Screen" onPress={buttonPressHandler} />
      </View>
  );
+};
+
+/* We can use navigationOptions as a function also instead of a property
+which gets automatically called by React Navigation and get passed some
+navigationData object. This object can help to access 'navigation' and access
+the same data we extracted in component above, without it that would be out of
+scope eg. catId above in component.
+We do have to return navigationOptions object now, unlike when it was added
+as property in categories screen */
+CategoryMealScreen.navigationOptions = (navigationData) => {
+    const catId = navigationData.navigation.getParam('categoryId');
+    const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
+
+    return {
+        headerTitle: selectedCategory.title,
+        headerStyle: {
+            backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
+        },
+        headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor // Font Color
+    };
 };
 
 const styles = StyleSheet.create({
