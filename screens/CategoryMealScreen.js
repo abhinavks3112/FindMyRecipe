@@ -1,25 +1,41 @@
 import React from 'react';
 import {
  View,
- Text,
- StyleSheet,
- Button
+ FlatList,
+ StyleSheet
 } from 'react-native';
-import { CATEGORIES } from '../data/dummy-data';
+import { CATEGORIES, MEALS } from '../data/dummy-data';
+import MealItem from '../components/MealItem';
 
 const CategoryMealScreen = (props) => {
+ const renderMealItem = (itemData) => (
+        <MealItem
+        title={itemData.item.title}
+        duration={itemData.item.duration}
+        complexity={itemData.item.complexity}
+        affordability={itemData.item.affordability}
+        image={itemData.item.imageUrl}
+        onSelectMeal={() => {}}
+        />
+);
+
  /* We will use getParam to extract params passed from previous screen
  by passing the same key as in previous page */
  const catId = props.navigation.getParam('categoryId');
- const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
+
+ const displayedMeals = MEALS.filter((meal) => meal.categoryIds.indexOf(catId) >= 0);
+
  const buttonPressHandler = () => {
      props.navigation.navigate('MealDetail');
  };
  return (
      <View style={styles.screen}>
-         <Text>CategoryMeal Screen</Text>
-         <Text>{selectedCategory.title}</Text>
-         <Button title="Go to Category Details Screen" onPress={buttonPressHandler} />
+       <FlatList
+       data={displayedMeals}
+       renderItem={renderMealItem}
+       keyExtractor={(item) => item.id}
+       style={{ width: '100%' }}
+       />
      </View>
  );
 };
@@ -44,7 +60,8 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: 15
     }
 });
 
