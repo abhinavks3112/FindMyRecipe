@@ -1,5 +1,8 @@
 import React from 'react';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
 import MealList from '../components/MealList';
+import HeaderButton from '../components/HeaderButton';
 import { MEALS } from '../data/dummy-data';
 
 const FavouritesScreen = (props) => {
@@ -13,8 +16,21 @@ const FavouritesScreen = (props) => {
     );
 };
 
-FavouritesScreen.navigationOptions = {
-    headerTitle: 'Your Favourites'
+FavouritesScreen.navigationOptions = (navData) => {
+    return ({
+        headerTitle: 'Your Favourites',
+        headerLeft: (
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item
+                title="Menu"
+                iconName="menu"
+                onPress={() => {
+                    navData.navigation.toggleDrawer();
+                }}
+                />
+            </HeaderButtons>
+        )
+    });
 };
 
 export default FavouritesScreen;

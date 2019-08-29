@@ -1,6 +1,9 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
 import { CATEGORIES } from '../data/dummy-data';
+import HeaderButton from '../components/HeaderButton';
 import CategoryGridTile from '../components/CategoryGridTile';
 
 const CategoriesScreen = (props) => {
@@ -80,9 +83,20 @@ const CategoriesScreen = (props) => {
 /* Since every function in javascript is an object, we can add
 properties to it, so we will add navigation property to CategoriesScreen,
 which is javascript function and essentially an object in java */
-CategoriesScreen.navigationOptions = {
-    // Styling the Header
-    headerTitle: 'Meal Categories'
+CategoriesScreen.navigationOptions = (navData) => {
+    return {
+        headerTitle: 'Meal Categories',
+        headerLeft: (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <Item
+            title="Menu"
+            iconName="menu"
+            onPress={() => {
+                navData.navigation.toggleDrawer();
+            }}
+            />
+        </HeaderButtons>)
+    };
 };
 
 export default CategoriesScreen;
