@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         shadowOffset: {
             width: 0,
             height: 2
-        },       
+        },
         padding: 15,
         justifyContent: 'flex-end',
         alignItems: 'flex-end'
