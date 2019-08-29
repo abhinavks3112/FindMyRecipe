@@ -12,8 +12,7 @@ const FiltersScreen = () => {
  );
 };
 
-FiltersScreen.navigationOptions = (navData) => {
-    return ({
+FiltersScreen.navigationOptions = (navData) => ({
         headerTitle: 'Filters',
         headerLeft: (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -26,8 +25,7 @@ FiltersScreen.navigationOptions = (navData) => {
                 />
             </HeaderButtons>
         )
-    });
-};
+});
 
 const styles = StyleSheet.create({
     screen: {

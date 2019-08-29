@@ -83,8 +83,7 @@ const CategoriesScreen = (props) => {
 /* Since every function in javascript is an object, we can add
 properties to it, so we will add navigation property to CategoriesScreen,
 which is javascript function and essentially an object in java */
-CategoriesScreen.navigationOptions = (navData) => {
-    return {
+CategoriesScreen.navigationOptions = (navData) => ({
         headerTitle: 'Meal Categories',
         headerLeft: (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -96,7 +95,6 @@ CategoriesScreen.navigationOptions = (navData) => {
             }}
             />
         </HeaderButtons>)
-    };
-};
+});
 
 export default CategoriesScreen;

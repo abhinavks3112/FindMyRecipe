@@ -16,8 +16,7 @@ const FavouritesScreen = (props) => {
     );
 };
 
-FavouritesScreen.navigationOptions = (navData) => {
-    return ({
+FavouritesScreen.navigationOptions = (navData) => ({
         headerTitle: 'Your Favourites',
         headerLeft: (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -30,7 +29,6 @@ FavouritesScreen.navigationOptions = (navData) => {
                 />
             </HeaderButtons>
         )
-    });
-};
+});
 
 export default FavouritesScreen;
