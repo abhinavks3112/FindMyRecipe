@@ -8,6 +8,13 @@ import { CATEGORIES, MEALS } from '../data/dummy-data';
 import MealItem from '../components/MealItem';
 
 const CategoryMealScreen = (props) => {
+  const { navigation } = props;
+
+ const selectedMealHandler = (mealId) => (navigation.navigate({
+        routeName: 'MealDetail',
+        params: { mealId }
+ }));
+
  const renderMealItem = (itemData) => (
         <MealItem
         title={itemData.item.title}
@@ -15,19 +22,16 @@ const CategoryMealScreen = (props) => {
         complexity={itemData.item.complexity}
         affordability={itemData.item.affordability}
         image={itemData.item.imageUrl}
-        onSelectMeal={() => {}}
+        onSelectMeal={() => selectedMealHandler(itemData.item.id)}
         />
 );
 
  /* We will use getParam to extract params passed from previous screen
  by passing the same key as in previous page */
- const catId = props.navigation.getParam('categoryId');
+ const catId = navigation.getParam('categoryId');
 
  const displayedMeals = MEALS.filter((meal) => meal.categoryIds.indexOf(catId) >= 0);
 
- const buttonPressHandler = () => {
-     props.navigation.navigate('MealDetail');
- };
  return (
      <View style={styles.screen}>
        <FlatList
