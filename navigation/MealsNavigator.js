@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text } from 'react-native';
 import {
     createStackNavigator,
     createBottomTabNavigator,
@@ -19,6 +19,12 @@ import Colors from '../constants/Colors';
 const defaultStackNavOptions = {
     headerStyle: {
         backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
+    },
+    headerTitleStyle: {
+        fontFamily: 'open-sans-bold'
+    },
+    headerBackTitleStyle: {
+        fontFamily: 'open-sans'
     },
     headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor // Font Color}
 };
@@ -59,7 +65,13 @@ const tabScreenConfig = {
             color={tabInfo.tintColor} // picks up the tint color
             />
             ),
-            tabBarColor: Colors.primaryColor
+            tabBarColor: Colors.primaryColor,
+            // tabBarLabel: It overrides default settings for color
+            // like tabColor for createBottomTabNavigator, but not for
+            // createMaterialBottomTabNavigator, since it has no such defaults
+            tabBarLabel: Platform.OS === 'android'
+                        ? <Text style={{ fontFamily: 'open-sans-bold' }}>Meals</Text>// For android, we can set label style here
+                        : 'Meals'
         }
     },
     Favorites: {
@@ -72,7 +84,10 @@ const tabScreenConfig = {
                 color={tabInfo.tintColor}
                 />
             ),
-            tabBarColor: Colors.accentColor
+            tabBarColor: Colors.accentColor,
+            tabBarLabel: Platform.OS === 'android'
+                        ? <Text style={{ fontFamily: 'open-sans-bold' }}>Favorites</Text>// For android, we can set label style here
+                        : 'Favorites'
         }
     }
 };
@@ -83,6 +98,9 @@ const MealsFavTabNavigator = Platform.OS === 'android'
         shifting: true // active tab icon pops up
     })
     : createBottomTabNavigator(tabScreenConfig, {
+        labelStyle: { // For ios, we can set label style here
+            fontFamily: 'open-sans-bold'
+        },
         tabBarOptions: {
             activeTintColor: Colors.accentColor
         }
