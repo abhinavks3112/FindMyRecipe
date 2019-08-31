@@ -6,9 +6,9 @@ import MealItem from './MealItem';
 const MealList = (props) => {
     const { data, navigation } = props;
 
-    const selectedMealHandler = (mealId) => (navigation.navigate({
+    const selectedMealHandler = (mealId, mealTitle) => (navigation.navigate({
         routeName: 'MealDetail',
-        params: { mealId }
+        params: { mealId, mealTitle }
     }));
 
     const renderMealItem = (itemData) => (
@@ -18,7 +18,7 @@ const MealList = (props) => {
         complexity={itemData.item.complexity}
         affordability={itemData.item.affordability}
         image={itemData.item.imageUrl}
-        onSelectMeal={() => selectedMealHandler(itemData.item.id)}
+        onSelectMeal={() => selectedMealHandler(itemData.item.id, itemData.item.title)}
         />
     );
     return (

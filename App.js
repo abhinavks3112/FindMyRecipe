@@ -15,7 +15,7 @@ import mealsReducer from './store/reducer/mealsReducer';
 /* Declare this before anything, just after import to unlock these screens */
 useScreens();
 
-const rootReducer = combineReducers({ meal: mealsReducer });
+const rootReducer = combineReducers({ meals: mealsReducer });
 
 const store = createStore(rootReducer);
 

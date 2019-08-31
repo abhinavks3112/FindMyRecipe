@@ -7,20 +7,32 @@ import {
     Image
  } from 'react-native';
  import { HeaderButtons, Item } from 'react-navigation-header-buttons';
- import { MEALS } from '../data/dummy-data';
+ import { useSelector } from 'react-redux';
  import HeaderButton from '../components/HeaderButton';
  import DefaultText from '../components/DefaultText';
 
-const ListItem = (props) => (
+const ListItem = (props) => {
+    const { children } = props;
+    return (
     <View style={styles.listItem}>
-        <DefaultText>{props.children}</DefaultText>
+        <DefaultText>{children}</DefaultText>
     </View>
-);
+    );
+};
 
 const MealDetailScreen = (props) => {
     const { navigation } = props;
     const mealId = navigation.getParam('mealId');
-    const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+    const availableMeals = useSelector((state) => state.meals.meals);
+    const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+    /* Not using the following without useEffect otherwise, it would go in infinite loop
+    since change in navigation would cause re-render and then the process will repeat.
+    Now, disadvantag is that the title initially will be blank on screen load and then
+    suddenly pop out, this is because useEffect will pass this param after the component has
+    been fully rendered */
+    /* useEffect(() => {
+        navigation.setParams({ mealTitle: selectedMeal.title });
+    }, [selectedMeal]); */
 
  return (
      <ScrollView>
@@ -44,11 +56,14 @@ const MealDetailScreen = (props) => {
 };
 
 MealDetailScreen.navigationOptions = (navigationData) => {
-    const mealId = navigationData.navigation.getParam('mealId');
-    const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+    /* Not using it through setParam above, since there will be delay
+     in getting data so we will pass it from the previous screen so
+     that we can get the data before the component renders */
+    const mealTitle = navigationData.navigation.getParam('mealTitle');
+    // const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
     return {
-        headerTitle: selectedMeal.title,
+        headerTitle: mealTitle, // selectedMeal.title,
         headerRight: (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item

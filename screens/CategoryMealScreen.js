@@ -1,5 +1,7 @@
 import React from 'react';
-import { CATEGORIES, MEALS } from '../data/dummy-data';
+import { useSelector } from 'react-redux';
+
+import { CATEGORIES } from '../data/dummy-data';
 import MealList from '../components/MealList';
 
 const CategoryMealScreen = (props) => {
@@ -9,7 +11,11 @@ const CategoryMealScreen = (props) => {
  by passing the same key as in previous page */
  const catId = navigation.getParam('categoryId');
 
- const displayedMeals = MEALS.filter((meal) => meal.categoryIds.indexOf(catId) >= 0);
+ /* Kind of an alternative to mapStateToProps, returns a single value
+ More details: https://dev.to/gsto/new-redux-hooks-a-before-and-after-comparison-are-they-better-loj */
+ const availableMeals = useSelector((state) => state.meals.filteredMeals);
+
+ const displayedMeals = availableMeals.filter((meal) => meal.categoryIds.indexOf(catId) >= 0);
 
  return (
     <MealList
