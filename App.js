@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 
 /* Special package so that react navigation uses optimised native
 components provided by android and ios to render screen, to
@@ -9,9 +10,14 @@ improve performance */
 import { useScreens } from 'react-native-screens';
 
 import MealsNavigator from './navigation/MealsNavigator';
+import mealsReducer from './store/reducer/mealsReducer';
 
 /* Declare this before anything, just after import to unlock these screens */
 useScreens();
+
+const rootReducer = combineReducers({ meal: mealsReducer });
+
+const store = createStore(rootReducer);
 
 const fetchFonts = () => Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -30,5 +36,9 @@ export default function App() {
     );
   }
 
-  return <MealsNavigator />;
+  return (
+  <Provider store={store}>
+    <MealsNavigator />
+  </Provider>
+  );
 }

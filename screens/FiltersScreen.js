@@ -55,7 +55,7 @@ const FiltersScreen = (props) => {
         props.navigation then props will become a dependency and any change in props
         value will trigger useEffect, so destructuring is necessay  */
        /*  navigation.setParams({ save: saveFilters });
-    }, [saveFilters, navigation]); 
+    }, [saveFilters, navigation]);
     This is an infinite loop because when we set Params in navigation, we change
     naviagtion which we have listed as dependecy so it is re-rendered and then set again,
     which causes infinite loop, so we need to remove it from dependency.
