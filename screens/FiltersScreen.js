@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, Switch } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -20,11 +20,49 @@ const FilterSwitch = (props) => {
     );
 };
 
-const FiltersScreen = () => {
+const FiltersScreen = (props) => {
+    const { navigation } = props;
+
     const [isGlutenFree, setIsGlutenFree] = useState(false);
     const [isLactoseFree, setIsLactoseFree] = useState(false);
     const [isVegan, setIsVegan] = useState(false);
     const [isVegetarian, setIsVegetarian] = useState(false);
+
+    /* To make sure saveFilters only updates when state changes, we wrap it in useCallback hook.
+    useCallback will make it to be cached by react so that the function is only recreated if its
+    dependencies changed. We specify the array of dependencies same as useEffect.
+    Callback as the name suggests return an instance of callback function, it doesn't execute it.
+    More details: https://stackoverflow.com/questions/54371244/what-is-the-intention-of-using-reacts-usecallback-hook-in-place-of-useeffect
+    */
+    const saveFilters = useCallback(() => {
+        const appliedFilters = {
+            glutenFree: isGlutenFree,
+            lactoseFree: isLactoseFree,
+            vegan: isVegan,
+            vegetarian: isVegetarian
+        };
+        console.log(appliedFilters);
+    }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+
+    /* useEffect takes a function which runs whenever our state change and whenever
+    the component re-renders or updates, but if we list the dependencies, then it will
+    only run when the dependency's values change.
+    useEffect executes whatever is inside unlike useCallback.
+    More Details: https://dev.to/devcord/react-hooks-useeffect-usecallback-usememo-3o42
+    */
+    useEffect(() => {
+        /* If we do not destructure the navigation in a new variable and use
+        props.navigation then props will become a dependency and any change in props
+        value will trigger useEffect, so destructuring is necessay  */
+       /*  navigation.setParams({ save: saveFilters });
+    }, [saveFilters, navigation]); 
+    This is an infinite loop because when we set Params in navigation, we change
+    naviagtion which we have listed as dependecy so it is re-rendered and then set again,
+    which causes infinite loop, so we need to remove it from dependency.
+    */
+    navigation.setParams({ save: saveFilters });
+}, [saveFilters]);
+
     return (
         <View style={styles.screen}>
             <Text style={styles.title}>Filters Screen</Text>
@@ -62,6 +100,19 @@ FiltersScreen.navigationOptions = (navData) => ({
                 onPress={() => {
                     navData.navigation.toggleDrawer();
                 }}
+                />
+            </HeaderButtons>
+        ),
+        headerRight: (
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item
+                title="Save"
+                iconName="save"
+                // onPress={() => { navData.navigation.getParam('save'); }}
+                // This returns a pointer to function, to execute it either do:
+                // 1. onPress={() => { navData.navigation.getParam('save')(); }}
+                // 2. onPress={navData.navigation.getParam('save')}
+                onPress={navData.navigation.getParam('save')}
                 />
             </HeaderButtons>
         )
