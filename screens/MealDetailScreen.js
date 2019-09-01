@@ -27,6 +27,9 @@ const MealDetailScreen = (props) => {
     const mealId = navigation.getParam('mealId');
     const availableMeals = useSelector((state) => state.meals.meals);
     const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+    const isFavourite = useSelector(
+        (state) => state.meals.favouriteMeals.some((meal) => meal.id === mealId)
+    );
 
     const dispatch = useDispatch();
 
@@ -43,6 +46,10 @@ const MealDetailScreen = (props) => {
         // navigation.setParams({ mealTitle: selectedMeal.title });
         navigation.setParams({ toggleFav: toggleFavouriteHandler });
     }, [toggleFavouriteHandler]);
+
+    useEffect(() => {
+        navigation.setParams({ isFavourite });
+    }, [isFavourite]);
 
  return (
      <ScrollView>
@@ -71,6 +78,7 @@ MealDetailScreen.navigationOptions = (navigationData) => {
      that we can get the data before the component renders */
     const mealTitle = navigationData.navigation.getParam('mealTitle');
     const toggleFav = navigationData.navigation.getParam('toggleFav');
+    const isCurrentMealFavourite = navigationData.navigation.getParam('isFavourite');
     // const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
     return {
@@ -79,7 +87,7 @@ MealDetailScreen.navigationOptions = (navigationData) => {
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item
             title="Favourites"
-            iconName="star"
+            iconName={isCurrentMealFavourite ? 'star' : 'star-border'}
             onPress={() => toggleFav()}
             />
         </HeaderButtons>
