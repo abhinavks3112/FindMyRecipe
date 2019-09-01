@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, Switch } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useDispatch } from 'react-redux';
 
+import { setFilters } from '../store/action/mealsAction';
 import HeaderButton from '../components/HeaderButton';
 import Colors from '../constants/Colors';
 
@@ -23,6 +25,8 @@ const FilterSwitch = (props) => {
 const FiltersScreen = (props) => {
     const { navigation } = props;
 
+    const dispatch = useDispatch();
+
     const [isGlutenFree, setIsGlutenFree] = useState(false);
     const [isLactoseFree, setIsLactoseFree] = useState(false);
     const [isVegan, setIsVegan] = useState(false);
@@ -41,8 +45,8 @@ const FiltersScreen = (props) => {
             vegan: isVegan,
             vegetarian: isVegetarian
         };
-        console.log(appliedFilters);
-    }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
+        dispatch(setFilters(appliedFilters));
+    }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian, dispatch]);
 
     /* useEffect takes a function which runs whenever our state change and whenever
     the component re-renders or updates, but if we list the dependencies, then it will

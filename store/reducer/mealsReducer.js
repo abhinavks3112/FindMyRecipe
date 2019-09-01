@@ -1,5 +1,5 @@
 import { MEALS } from '../../data/dummy-data';
-import { TOGGLE_FAVOURITE } from '../action/types';
+import { TOGGLE_FAVOURITE, SET_FILTERS } from '../action/types';
 
 const INITIAL_STATE = {
     meals: MEALS,
@@ -20,6 +20,25 @@ const mealsReducer = (state = INITIAL_STATE, action) => {
             }
             const mealToAdd = state.meals.find((meal) => meal.id === action.payload);
             return { ...state, favouriteMeals: state.favouriteMeals.concat(mealToAdd) };
+        }
+        case SET_FILTERS: {
+            const apliedFilters = action.payload;
+            const filteredMeals = state.meals.filter((meal) => {
+                if (apliedFilters.glutenFree && !meal.isGlutenFree) {
+                    return false;
+                }
+                if (apliedFilters.lactoseFree && !meal.isLactoseFree) {
+                    return false;
+                }
+                if (apliedFilters.vegan && !meal.isVegan) {
+                    return false;
+                }
+                if (apliedFilters.vegetarian && !meal.isVegetarian) {
+                    return false;
+                }
+                return true;
+            });
+            return { ...state, filteredMeals };
         }
         default:
             return state;
