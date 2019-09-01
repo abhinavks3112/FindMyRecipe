@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
     View,
     Text,
@@ -7,9 +7,11 @@ import {
     Image
  } from 'react-native';
  import { HeaderButtons, Item } from 'react-navigation-header-buttons';
- import { useSelector } from 'react-redux';
+ import { useSelector, useDispatch } from 'react-redux';
+
  import HeaderButton from '../components/HeaderButton';
  import DefaultText from '../components/DefaultText';
+ import { toggleFavourite } from '../store/action/mealsAction';
 
 const ListItem = (props) => {
     const { children } = props;
@@ -25,14 +27,22 @@ const MealDetailScreen = (props) => {
     const mealId = navigation.getParam('mealId');
     const availableMeals = useSelector((state) => state.meals.meals);
     const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+
+    const dispatch = useDispatch();
+
+    const toggleFavouriteHandler = useCallback(() => {
+        dispatch(toggleFavourite(mealId));
+    }, [dispatch, mealId]);
+
     /* Not using the following without useEffect otherwise, it would go in infinite loop
     since change in navigation would cause re-render and then the process will repeat.
     Now, disadvantag is that the title initially will be blank on screen load and then
     suddenly pop out, this is because useEffect will pass this param after the component has
     been fully rendered */
-    /* useEffect(() => {
-        navigation.setParams({ mealTitle: selectedMeal.title });
-    }, [selectedMeal]); */
+    useEffect(() => {
+        // navigation.setParams({ mealTitle: selectedMeal.title });
+        navigation.setParams({ toggleFav: toggleFavouriteHandler });
+    }, [toggleFavouriteHandler]);
 
  return (
      <ScrollView>
@@ -60,6 +70,7 @@ MealDetailScreen.navigationOptions = (navigationData) => {
      in getting data so we will pass it from the previous screen so
      that we can get the data before the component renders */
     const mealTitle = navigationData.navigation.getParam('mealTitle');
+    const toggleFav = navigationData.navigation.getParam('toggleFav');
     // const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
     return {
@@ -69,7 +80,7 @@ MealDetailScreen.navigationOptions = (navigationData) => {
             <Item
             title="Favourites"
             iconName="star"
-            onPress={() => console.log('Mark as favorite')}
+            onPress={() => toggleFav()}
             />
         </HeaderButtons>
         )

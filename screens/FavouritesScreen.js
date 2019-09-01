@@ -1,4 +1,5 @@
-import React, { useSelector } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import MealList from '../components/MealList';
